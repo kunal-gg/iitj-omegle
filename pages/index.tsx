@@ -1,14 +1,16 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+
+function Home() {
   return (
     <main className="w-screen h-screen bg-[#212b42] flex flex-col">
       <section className='text-[#add7ff] flex justify-between px-10 py-5 text-2xl'>
-        <h1>IITJ Omegle</h1>
-        <h1>Kunal Tiwari</h1>
+      <p>Welcome, </p>
+        <button onClick={()=> signOut()}>Sign out</button>
       </section>
       <hr className='w-11/12 m-auto'/>
       <section className='flex w-screen h-full'>
@@ -29,4 +31,20 @@ export default function Home() {
       </section>
     </main>
   )
+}
+
+
+export default function IndexPage() {
+  const { data, status } = useSession();
+  const { data: session} = useSession();
+  if (status === 'loading') return <h1> loading... please wait</h1>;
+  if (status === 'authenticated') {
+      return Home();
+
+  }
+  return (
+    <div>
+      <button onClick={() => signIn('google')}>sign in with google</button>
+    </div>
+  );
 }
