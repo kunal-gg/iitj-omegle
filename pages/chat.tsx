@@ -1,9 +1,14 @@
 import React, { useEffect, useRef } from "react";
 
+type Offer = {
+    sdp: string,
+    type: string
+}
+
 export default function Chat() {
 
-    const localStream = useRef<HTMLMediaElement | null>(null);
-    const remoteStream = useRef<HTMLMediaElement | null>(null);
+    const localStream = useRef<HTMLVideoElement | null>(null);
+    const remoteStream = useRef<HTMLVideoElement | null>(null);
 
     // config of the stun servers
     const servers = { 
@@ -17,7 +22,10 @@ export default function Chat() {
 
     // getting the local user media
     const getLocalMedia = async () => {
-        const media = await navigator.mediaDevices.getUserMedia();
+        const media = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+        });
         localStream.current != null ? localStream.current.srcObject = media : null;
     }
 
@@ -33,7 +41,9 @@ export default function Chat() {
         // getting the ice candidates from the stun server
         peerConnection.onicecandidate = event => {
             if(event.candidate){
-                console.log(event.candidate);
+                console.log("this is an iceCandidate", event.candidate);
+            }else{
+                console.log("No more ice candidates");
             }
         }
 
@@ -48,6 +58,13 @@ export default function Chat() {
             }
 
             console.log(offerObject);
+        }
+
+        const createAnswer = async (offer: any) => {
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            await peerConnection.setRemoteDescription(offer);
+
         }
 
         createOffer();
