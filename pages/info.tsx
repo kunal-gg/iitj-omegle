@@ -1,4 +1,3 @@
-//import { Container, Card, Col, Row, Button, Text, Grid } from '@nextui-org/react';
 import { signIn } from 'next-auth/react';
 
 export default function Info() {
