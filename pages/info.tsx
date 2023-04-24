@@ -3,39 +3,6 @@ import { signIn } from 'next-auth/react';
 
 export default function Info() {
   return (
-    //used next-ui but later switched to tailwind
-    // <main> 
-    //   <div>
-    //    <p>IITJ OMEGLE</p>
-    //    <button onClick={() => signIn('google')}>sign in with google</button>
-    //  </div>
-    // <Grid.Container justify='center' css={{margin: 0}}>
-    // <Card css={{ mw: "400px" }}>
-    //   <Card.Body>
-    //   <Card.Header>
-    //         <Text b>IITJ Omegle</Text>
-    //       </Card.Header>
-    //       <Card.Divider />
-    //       <Card.Body css={{ py: "$10" }}>
-    //         <Text>
-    //         Omegle is a great way to meet new friends, IITJ omegle is a great way to make connections inside IITJ .
-    //         When you use IITJ Omegle, you are paired randomly with another person to talk one-on-one. 
-    //         Hope you have fun!
-    //         </Text>
-    //       </Card.Body>
-    //       <Card.Divider />
-    //       <Card.Footer>
-    //         <Row justify="flex-end">
-    //           <Button size="sm" light onClick={}>
-    //             next
-    //           </Button>
-    //           <Button size="sm">Agree</Button>
-    //         </Row>
-    //       </Card.Footer>
-    //   </Card.Body>
-    // </Card>
-    // </Grid.Container>
-    // </main>
     <main className="w-screen h-screen bg-[#212b42] flex flex-col">
     <section className='text-[#add7ff] flex justify-between px-10 py-5 text-2xl'>
       <h1>IITJ Omegle</h1>
