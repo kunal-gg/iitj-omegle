@@ -1,5 +1,6 @@
 import React from "react"
 import { useSession, signIn, signOut } from "next-auth/react";
+import { data } from "autoprefixer";
 
 const login = () => {
     const { data: session} = useSession();
@@ -7,7 +8,7 @@ const login = () => {
   if (session) {
     return (
         <div>
-            <p>Welcome, {session.user.email}</p>
+            <p>Welcome, {data.user.email}</p>
             <button onClick={()=> signOut()}>Sign out</button>
         </div>
     );

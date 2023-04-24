@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { useSession, signIn, signOut } from 'next-auth/react';
+import Info from './info';
+
 
 const inter = Inter({ subsets: ['latin'] })
 
 
-function Home() {
+function Home(){
   return (
     <main className="w-screen h-screen bg-[#212b42] flex flex-col">
       <section className='text-[#add7ff] flex justify-between px-10 py-5 text-2xl'>
@@ -39,12 +41,12 @@ export default function IndexPage() {
   const { data: session} = useSession();
   if (status === 'loading') return <h1> loading... please wait</h1>;
   if (status === 'authenticated') {
-      return Home();
-
+      return Home(); 
   }
-  return (
-    <div>
-      <button onClick={() => signIn('google')}>sign in with google</button>
-    </div>
-  );
+  // return (
+  //   <div>
+  //     <button onClick={() => signIn('google')}>sign in with google</button>
+  //   </div>
+  // );
+  return Info();
 }
