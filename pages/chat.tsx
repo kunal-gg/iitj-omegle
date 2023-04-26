@@ -60,14 +60,10 @@ export default function Chat() {
             console.log(offerObject);
         }
 
-        const createAnswer = async (offer: any) => {
-            const answer = await peerConnection.createAnswer();
-            await peerConnection.setLocalDescription(answer);
-            await peerConnection.setRemoteDescription(offer);
 
-        }
 
         createOffer();
+
         
 
     })
