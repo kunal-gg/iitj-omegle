@@ -20,53 +20,57 @@ export default function Chat() {
     }
 
 
-    // getting the local user media
-    const getLocalMedia = async () => {
-        const media = await navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: true
-        });
-        localStream.current != null ? localStream.current.srcObject = media : null;
-    }
-
-    
-
     useEffect(() => {
-
-        // settting up a pperConnection
+        // setting up a peerConnection
         const peerConnection = new RTCPeerConnection(servers);
-
-        getLocalMedia();
-
-        // getting the ice candidates from the stun server
-        peerConnection.onicecandidate = event => {
-            if(event.candidate){
-                console.log("this is an iceCandidate", event.candidate);
-            }else{
-                console.log("No more ice candidates");
-            }
+    
+        // getting the local user media
+        const getLocalMedia = async () => {
+            const media = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true
+            });
+            localStream.current != null ? localStream.current.srcObject = media : null;
+    
+            // Add the local stream's tracks to the peerConnection
+            media.getTracks().forEach(track => {
+                peerConnection.addTrack(track, media);
+            });
         }
-
+    
         // creating an offer 
         const createOffer = async () => {
             const offer = await peerConnection.createOffer();
             await peerConnection.setLocalDescription(offer);
-
+    
             const offerObject = {
                 sdp: offer.sdp,
                 type: offer.type
             }
-
+    
             console.log(offerObject);
         }
-
-
-
-        createOffer();
-
-        
-
-    })
+    
+        const setupConnection = async () => {
+            await getLocalMedia();
+    
+            // getting the ice candidates from the stun server
+            peerConnection.onicecandidate = event => {
+                console.log("iceCandidate")
+                if (event.candidate) {
+                    console.log("this is an iceCandidate", event.candidate);
+                } else {
+                    console.log("No more ice candidates");
+                }
+            }
+    
+            await createOffer();
+        };
+    
+        setupConnection();
+    
+    }, []);
+    
     
 
     return (
