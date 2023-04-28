@@ -19,22 +19,24 @@ export default function Chat() {
         ]
     }
 
-
-    // getting the local user media
-    const getLocalMedia = async () => {
-        const media = await navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: true
-        });
-        localStream.current != null ? localStream.current.srcObject = media : null;
-    }
-
-    
-
     useEffect(() => {
 
-        // settting up a pperConnection
+        // setting up a peerConnection
         const peerConnection = new RTCPeerConnection(servers);
+
+        // getting the local user media
+        const getLocalMedia = async () => {
+            const media = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: true
+            });
+            localStream.current != null ? localStream.current.srcObject = media : null;
+
+            // Add the local stream's tracks to the peerConnection
+            media.getTracks().forEach(track => {
+                peerConnection.addTrack(track, media);
+            });
+        }
 
         getLocalMedia();
 
@@ -60,14 +62,9 @@ export default function Chat() {
             console.log(offerObject);
         }
 
-
-
         createOffer();
 
-        
-
     })
-    
 
     return (
         <main>
@@ -75,6 +72,3 @@ export default function Chat() {
         </main>
     )
 }
-
-
-
